@@ -1,6 +1,17 @@
 :root{
   --bg:#f6f7f9; --fg:#1c2530; --sub:#5b6b7c; --line:#e2e7ee; --card:#fff;
   --acc:#1f5c8b; --ok:#1f9d55; --warn:#b7791f; --hl:#fff8e1;
+  --no:#d64545; --btnfg:#fff; --notice:#5a4a1a; --viewer:#e8ecf1;
+}
+html[data-theme="sepia"]{
+  --bg:#f6efe0; --fg:#4a3a22; --sub:#7a6748; --line:#e3d6bb; --card:#fbf5e8;
+  --acc:#8a5a1e; --ok:#2f7a4f; --warn:#8a5a1e; --hl:#f3e6c8;
+  --no:#b33; --btnfg:#fff; --notice:#4a3a22; --viewer:#e6dcc8;
+}
+html[data-theme="dark"]{
+  --bg:#161a1f; --fg:#d6dee8; --sub:#8b9bad; --line:#2a333d; --card:#1e242c;
+  --acc:#6cb6ff; --ok:#5fd08a; --warn:#e0b45c; --hl:#2b2a1e;
+  --no:#ff8a8a; --btnfg:#0b1620; --notice:#e0c98a; --viewer:#0f141a;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.7 -apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif}
@@ -8,28 +19,30 @@ body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.7 -apple-system,"
 header.top h1{margin:6px 0 6px;font-size:25px;letter-spacing:.3px}
 header.top p{margin:0;color:var(--sub);font-size:13.5px}
 a{color:var(--acc);text-decoration:none}
-.notice{background:var(--hl);border:1px solid #f0d9a8;color:#5a4a1a;border-radius:10px;padding:10px 14px;margin:16px 0;font-size:13.5px}
+.notice{background:var(--hl);border:1px solid var(--line);color:var(--notice);border-radius:10px;padding:10px 14px;margin:16px 0;font-size:13.5px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:18px}
 .pcard{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;transition:transform .15s,box-shadow .15s}
 .pcard:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(31,92,139,.10)}
-.ptag{align-self:flex-start;font-size:12px;color:var(--sub);border:1px solid var(--line);border-radius:999px;padding:2px 10px;background:#fafbfc;margin-bottom:10px}
+.ptag{align-self:flex-start;font-size:12px;color:var(--sub);border:1px solid var(--line);border-radius:999px;padding:2px 10px;background:var(--bg);margin-bottom:10px}
 .pcard h2{font-size:17.5px;margin:0 0 6px;line-height:1.5}
 .pcard p{margin:0 0 14px;color:var(--sub);font-size:13.5px;flex:1}
 .pact{display:flex;gap:8px;flex-wrap:wrap}
-.btn{display:inline-block;background:var(--acc);color:#fff;border:0;border-radius:20px;padding:8px 16px;font-size:13.5px;font-weight:600;cursor:pointer}
+.btn{display:inline-block;background:var(--acc);color:var(--btnfg);border:0;border-radius:20px;padding:8px 16px;font-size:13.5px;font-weight:600;cursor:pointer}
 .btn.ghost{background:var(--card);color:var(--acc);border:1px solid var(--line)}
+.navbtn{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:7px 12px;font-size:13px;color:var(--fg);cursor:pointer}
+.navbtn:hover{border-color:var(--acc);color:var(--acc)}
 .btn:hover{opacity:.92}
 .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin:16px 0;position:sticky;top:0;z-index:40}
 .toolbar button,.toolbar select,.toolbar a{font-size:13px}
 .toolbar .sp{flex:1}
 .chip{display:inline-block;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:3px 10px;font-size:13px;color:var(--sub)}
-#viewer{background:#e8ecf1;border:1px solid var(--line);border-radius:12px;overflow:auto;max-height:82vh;padding:10px}
-#pimg{display:block;margin:0 auto;width:100%;height:auto;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.10)}
+#viewer{background:var(--viewer);border:1px solid var(--line);border-radius:12px;overflow:auto;max-height:82vh;padding:10px}
+#pimg{display:block;margin:0 auto;width:100%;height:auto;background:var(--card);box-shadow:0 4px 18px rgba(0,0,0,.10)}
 #ptext{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;white-space:pre-wrap;word-break:break-word;font:13.5px/1.85 ui-monospace,"PingFang SC","Microsoft YaHei",monospace;max-height:82vh;overflow:auto}
 .phead{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;justify-content:space-between}
 .phead h1{margin:6px 0 4px;font-size:22px}
 .phead p{margin:0;color:var(--sub);font-size:13px}
-footer{margin-top:36px;color:#9aa0a8;font-size:12.5px;text-align:center}
+footer{margin-top:36px;color:var(--sub);font-size:12.5px;text-align:center}
 @media(max-width:600px){
   .wrap{padding:18px 12px 50px}
   header.top h1{font-size:21px}
@@ -53,13 +66,15 @@ footer{margin-top:36px;color:#9aa0a8;font-size:12.5px;text-align:center}
 .qopt:hover{border-color:var(--acc)}
 .qopt.on{border-color:var(--acc);background:rgba(31,92,139,.08);color:var(--acc)}
 .qopt.right{border-color:var(--ok);background:rgba(31,157,85,.10);color:var(--ok)}
-.qopt.wrong{border-color:#d64545;background:rgba(214,69,69,.10);color:#d64545}
+.qopt.wrong{border-color:var(--no);background:rgba(214,69,69,.10);color:var(--no)}
 .qopt.locked{cursor:default}
 .qinput{width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--fg);margin:8px 0;font:inherit}
-.qans{background:var(--hl);border:1px solid #f0d9a8;border-radius:10px;padding:10px 12px;margin-top:10px}
+.qans{background:var(--hl);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:10px}
 .qatext{white-space:pre-wrap;line-height:1.8;font-size:14px;margin-top:4px}
 .qexp{margin-top:8px;font-size:13.5px;color:var(--sub);border-top:1px dashed var(--line);padding-top:8px;white-space:pre-wrap}
 .qgrade{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;align-items:center}
 .qgrade .on{border-color:var(--ok);color:var(--ok)}
-.qgrade .wrong{border-color:#d64545;color:#d64545}
+.qgrade .wrong{border-color:var(--no);color:var(--no)}
 .qredo{margin-top:8px}
+
+.theme-switch .navbtn.on{border-color:var(--acc);color:var(--acc);background:rgba(31,92,139,.12)}
