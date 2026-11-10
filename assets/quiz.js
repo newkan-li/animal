@@ -85,7 +85,7 @@
     if (at === "√" || at === "对") at = "正确 ✓";
     else if (at === "×" || at === "错") at = "错误 ✗";
     h += '<div class="qans" hidden><b>答案：</b><div class="qatext">' + esc(at || "（原卷未提供答案，请对照原卷）") + "</div>" +
-      (it.e ? '<div class="qexp">' + esc(it.e) + "</div>" : "") + "</div>";
+      (it.e ? '<div class="qexp"><b>解析：</b>' + esc(it.e) + "</div>" : "") + "</div>";
     if (!auto) {
       h += '<div class="qgrade" hidden><span class="chip">自评</span><button class="btn ghost" data-grade="ok">✓ 我答对了</button><button class="btn ghost" data-grade="no">✗ 我答错了</button></div>';
     }
@@ -152,7 +152,7 @@
   }
 
   var sc = document.createElement("script");
-  sc.src = "data/exam-" + pid + ".js?v=20261110b";
+  sc.src = "data/exam-" + pid + ".js?v=20261110d";
   sc.onload = function () {
     exam = window.EXAMS && window.EXAMS[pid];
     if (!exam) { host.innerHTML = '<p class="notice">未找到逐题数据。</p>'; return; }
