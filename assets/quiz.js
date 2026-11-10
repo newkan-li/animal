@@ -76,12 +76,15 @@
       });
       h += "</div>";
     } else if (isJudgeSec(s) && auto) {
-      h += '<div class="qopts"><button class="qopt" data-opt="√">√ 正确</button><button class="qopt" data-opt="×">× 错误</button></div>';
+      h += '<div class="qopts"><button class="qopt" data-opt="√">✓ 正确</button><button class="qopt" data-opt="×">✗ 错误</button></div>';
     } else if (isFill(s)) {
       h += '<input class="qinput" data-fill value="' + esc(st.text || "") + '" placeholder="填写答案（多个空用；分隔）">';
     }
     if (!auto) h += '<div class="navrow qredo"><button class="btn ghost" data-show>显示答案</button></div>';
-    h += '<div class="qans" hidden><b>答案：</b><div class="qatext">' + esc(it.a || "（原卷未提供答案，请对照原卷）") + "</div>" +
+    var at = it.a;
+    if (at === "√" || at === "对") at = "正确 ✓";
+    else if (at === "×" || at === "错") at = "错误 ✗";
+    h += '<div class="qans" hidden><b>答案：</b><div class="qatext">' + esc(at || "（原卷未提供答案，请对照原卷）") + "</div>" +
       (it.e ? '<div class="qexp">' + esc(it.e) + "</div>" : "") + "</div>";
     if (!auto) {
       h += '<div class="qgrade" hidden><span class="chip">自评</span><button class="btn ghost" data-grade="ok">✓ 我答对了</button><button class="btn ghost" data-grade="no">✗ 我答错了</button></div>';
