@@ -18,7 +18,6 @@
   function isJudgeSec(s) { return /判断/.test(s.type); }
   function isFill(s) { return /填空/.test(s.type); }
 
-  document.getElementById("qpaper").href = "paper.html?p=" + pid;
   document.getElementById("qreset").onclick = function () {
     if (!confirm("清空本试卷的全部作答记录，重新做？")) return;
     store = {}; save(); render();
