@@ -20,6 +20,7 @@
   var dl = document.getElementById("dl"), printBtn = document.getElementById("print");
 
   dl.href = paper.pdf; dl.setAttribute("download", paper.id + ".pdf");
+  var qlink = document.getElementById("qlink"); if (qlink) qlink.href = "quiz.html?p=" + paper.id;
   printBtn.onclick = function () { window.open(paper.pdf, "_blank"); };
 
   function imgSrc(n) { return paper.dir + "/p-" + String(n).padStart(3, "0") + ".jpg"; }

@@ -42,3 +42,24 @@ footer{margin-top:36px;color:#9aa0a8;font-size:12.5px;text-align:center}
   #viewer{border:0;padding:0;max-height:none;background:#fff}
   #pimg{width:100%;box-shadow:none}
 }
+
+.qsec{margin:16px 0}
+.qsec h2{font-size:18px;margin:0 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.qcard{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;background:var(--card)}
+.qhead{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.qstem{font-size:15px;line-height:1.8}
+.qopts{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.qopt{text-align:left;padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--fg);font:inherit;cursor:pointer}
+.qopt:hover{border-color:var(--acc)}
+.qopt.on{border-color:var(--acc);background:rgba(31,92,139,.08);color:var(--acc)}
+.qopt.right{border-color:var(--ok);background:rgba(31,157,85,.10);color:var(--ok)}
+.qopt.wrong{border-color:#d64545;background:rgba(214,69,69,.10);color:#d64545}
+.qopt.locked{cursor:default}
+.qinput{width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--fg);margin:8px 0;font:inherit}
+.qans{background:var(--hl);border:1px solid #f0d9a8;border-radius:10px;padding:10px 12px;margin-top:10px}
+.qatext{white-space:pre-wrap;line-height:1.8;font-size:14px;margin-top:4px}
+.qexp{margin-top:8px;font-size:13.5px;color:var(--sub);border-top:1px dashed var(--line);padding-top:8px;white-space:pre-wrap}
+.qgrade{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;align-items:center}
+.qgrade .on{border-color:var(--ok);color:var(--ok)}
+.qgrade .wrong{border-color:#d64545;color:#d64545}
+.qredo{margin-top:8px}
