@@ -18,21 +18,44 @@
   function isJudgeSec(s) { return /判断/.test(s.type); }
   function isFill(s) { return /填空/.test(s.type); }
 
+  document.getElementById("qwrong").onclick = function () {
+    var w = document.getElementById("wrongbook");
+    if (w) w.scrollIntoView({ behavior: "smooth", block: "start" });
+    else alert("暂无错题，继续加油！");
+  };
   document.getElementById("qreset").onclick = function () {
     if (!confirm("清空本试卷的全部作答记录，重新做？")) return;
     store = {}; save(); render();
   };
 
-  function updateStat() {
-    var total = 0, ans = 0, ok = 0;
-    (exam ? exam.sections : []).forEach(function (s, si) {
-      s.items.forEach(function (it) {
-        total++;
-        var st = store[key(si, it.n)];
-        if (st && (st.pick != null || st.done)) { ans++; if (st.ok) ok++; }
-      });
+  function answerText(it) {
+    var a = it.a;
+    if (a === "√" || a === "对") return "正确 ✓";
+    if (a === "×" || a === "错") return "错误 ✗";
+    return a || "（原卷未提供答案，请对照原卷）";
+  }
+  function secStats(s, si) {
+    var got = 0, max = 0, wrong = 0, ans = 0;
+    s.items.forEach(function (it) {
+      max += s.score;
+      var st = store[key(si, it.n)];
+      if (st && (st.pick != null || st.done)) { ans++; if (st.ok) got += s.score; else wrong++; }
     });
-    stat.textContent = "已答 " + ans + "/" + total + " · 正确 " + ok;
+    return { got: got, max: max, wrong: wrong, ans: ans };
+  }
+  function allStats() {
+    var o = { got: 0, max: 0, wrong: 0, ans: 0, total: 0 };
+    (exam ? exam.sections : []).forEach(function (s, si) {
+      var x = secStats(s, si);
+      o.got += x.got; o.max += x.max; o.wrong += x.wrong; o.ans += x.ans; o.total += s.items.length;
+    });
+    return o;
+  }
+  function updateStat() {
+    var o = allStats();
+    stat.textContent = "得分 " + o.got + "/" + o.max + " · 已答 " + o.ans + "/" + o.total + " · 错题 " + o.wrong;
+    var wb = document.getElementById("qwrong");
+    if (wb) wb.textContent = "📕 错题本 " + o.wrong;
   }
 
   function markCard(card, s, it, st) {
@@ -96,12 +119,37 @@
     if (!exam) return;
     title.textContent = exam.title;
     meta.textContent = paper.title + " ｜ 共 " + exam.sections.reduce(function (a, s) { return a + s.items.length; }, 0) + " 题 ｜ 答案与解析来自原卷";
-    host.innerHTML = exam.sections.map(function (s, si) {
-      return '<section class="qsec pcard"><h2>' + esc(s.type) + ' <span class="chip">每题 ' + s.score + ' 分</span></h2>' +
+    var wrong = [];
+    exam.sections.forEach(function (s, si) {
+      s.items.forEach(function (it) {
+        var st = store[key(si, it.n)];
+        if (st && (st.pick != null || st.done) && !st.ok) wrong.push({ s: s, si: si, it: it });
+      });
+    });
+    var wrongHtml = "";
+    if (wrong.length) {
+      wrongHtml = '<section class="qsec pcard wrongbook" id="wrongbook"><h2>📕 错题本 <span class="chip">' + wrong.length + ' 题</span></h2>' +
+        wrong.map(function (o) {
+          var k = o.si + ":" + o.it.n;
+          return '<div class="witem"><div><b>' + esc(o.s.type) + " · 第 " + o.it.n + ' 题</b><div class="wq">' +
+            esc(o.it.q.slice(0, 90)) + '…</div><div class="wa">答案：' + esc(answerText(o.it)) +
+            '</div></div><button class="btn ghost" data-redo="' + k + '">🔄 重做这道题</button></div>';
+        }).join("") + "</section>";
+    }
+    host.innerHTML = wrongHtml + exam.sections.map(function (s, si) {
+      var cs = secStats(s, si);
+      return '<section class="qsec pcard"><h2>' + esc(s.type) + ' <span class="chip">每题 ' + s.score + ' 分</span>' +
+        '<span class="chip">本节 ' + cs.got + "/" + cs.max + " · 错题 " + cs.wrong + '</span></h2>' +
         s.items.map(function (it) { return card(s, si, it); }).join("") + "</section>";
     }).join("");
     bind();
     updateStat();
+  }
+
+  function rerender() {
+    var y = window.scrollY;
+    render();
+    window.scrollTo(0, y);
   }
 
   function bind() {
@@ -116,7 +164,7 @@
             if (store[k] && store[k].pick != null) return;
             var v = b.getAttribute("data-opt");
             store[k] = { pick: v, ok: auto === "choice" ? v === String(it.a).trim().toUpperCase() : v === it.a };
-            save(); markCard(c, s, it, store[k]); reveal(c); updateStat();
+            save(); rerender();
           };
         });
         if (st.pick != null) { markCard(c, s, it, st); reveal(c); }
@@ -130,8 +178,7 @@
             if (store[k] && store[k].done) return;
             var ok = b.getAttribute("data-grade") === "ok";
             store[k] = { done: true, ok: ok, text: (store[k] && store[k].text) || "" }; save();
-            reveal(c); b.classList.add(ok ? "on" : "wrong"); updateStat();
-            Array.prototype.forEach.call(c.querySelectorAll("[data-grade]"), function (x) { x.disabled = true; });
+            rerender();
           };
         });
         if (st.done) {
@@ -147,6 +194,16 @@
       rb.textContent = "🔄 重做本题";
       rb.onclick = function () { delete store[k]; save(); render(); };
       c.appendChild(rb);
+    });
+    Array.prototype.forEach.call(host.querySelectorAll("[data-redo]"), function (b) {
+      b.onclick = function () {
+        var p = b.getAttribute("data-redo").split(":"), si = +p[0], n = +p[1];
+        delete store[key(si, n)]; save(); render();
+        setTimeout(function () {
+          var el = document.getElementById("q" + si + "-" + n);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 60);
+      };
     });
   }
 

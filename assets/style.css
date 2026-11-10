@@ -78,3 +78,10 @@ footer{margin-top:36px;color:var(--sub);font-size:12.5px;text-align:center}
 .qredo{margin-top:8px}
 
 .theme-switch .navbtn.on{border-color:var(--acc);color:var(--acc);background:rgba(31,92,139,.12)}
+
+.wrongbook{margin:16px 0}
+.witem{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;border-top:1px dashed var(--line);padding:10px 0;flex-wrap:wrap}
+.witem:first-of-type{border-top:0;padding-top:0}
+.wq{font-size:14px;margin-top:2px}
+.wa{font-size:13px;color:var(--sub);margin-top:2px}
+.witem .btn{flex:none}
