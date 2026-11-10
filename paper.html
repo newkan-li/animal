@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1f5c8b">
+<title>试卷 · 人体及动物生理学</title>
+<link rel="stylesheet" href="assets/style.css?v=20261110a">
+</head>
+<body>
+<script src="auth.js"></script>
+<div class="wrap">
+<header class="phead">
+<div>
+<a href="index.html">← 返回试卷库</a>
+<h1 id="ptitle">试卷</h1>
+<p id="pmeta"></p>
+</div>
+</header>
+<div class="toolbar">
+<button class="btn ghost" id="prev">← 上一页</button>
+<span class="chip" id="pnum">-/-</span>
+<button class="btn ghost" id="next">下一页 →</button>
+<span class="sp"></span>
+<select id="zoom" class="btn ghost" style="border-radius:20px;padding:7px 10px">
+<option value="100">适应宽度</option>
+<option value="125">125%</option>
+<option value="150">150%</option>
+<option value="200">200%</option>
+</select>
+<button class="btn ghost" id="textbtn">文字版</button>
+<a class="btn ghost" id="dl" download>下载 PDF</a>
+<button class="btn ghost" id="print">打印 / 另存 PDF</button>
+</div>
+<div id="viewer"><img id="pimg" alt="试卷原页"></div>
+<pre id="ptext" hidden></pre>
+<footer>原卷版权归原作者 / 出题方 ｜ 仅供个人学习使用</footer>
+</div>
+<script src="data/papers.js?v=20261110a"></script>
+<script src="assets/paper.js?v=20261110a"></script>
+</body>
+</html>
